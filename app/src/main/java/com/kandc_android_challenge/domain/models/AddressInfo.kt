@@ -7,6 +7,7 @@ import kotlinx.parcelize.Parcelize
 data class AddressInfo(
     val street: String?,
     val city: String?,
+    val state: String?,
     val country: String?,
-    val zipCode: Int?
+    val zipCode: String?
 ) : Parcelable

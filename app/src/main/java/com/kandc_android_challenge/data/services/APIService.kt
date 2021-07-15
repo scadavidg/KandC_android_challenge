@@ -2,6 +2,7 @@ package com.kandc_android_challenge.data.services
 
 import com.example.kandc_android_challenge.BuildConfig.API_URL
 import com.google.gson.JsonArray
+import com.kandc_android_challenge.utils.ROUTE_API_CONTACTS
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import retrofit2.Call
@@ -11,7 +12,7 @@ import retrofit2.http.GET
 
 interface APIService {
 
-    @GET("contacts.json")
+    @GET(ROUTE_API_CONTACTS)
     fun getContactsList(): Call<JsonArray>
 
     companion object {

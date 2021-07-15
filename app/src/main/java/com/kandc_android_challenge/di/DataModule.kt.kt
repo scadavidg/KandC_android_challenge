@@ -17,6 +17,6 @@ val dataModule = module(override = true) {
             .build()
     }
 
-    //services
+    // services
     single { ContactService() }
 }

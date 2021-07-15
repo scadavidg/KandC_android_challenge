@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData
 import com.kandc_android_challenge.data.models.Result
 import com.kandc_android_challenge.domain.models.Contact
-import com.kandc_android_challenge.domain.useCases.GetContactsUseCase
+import com.kandc_android_challenge.domain.usecases.GetContactsUseCase
 
 class ContactsViewModel(private val getContactsUseCase: GetContactsUseCase) : ViewModel() {
 
@@ -16,7 +16,7 @@ class ContactsViewModel(private val getContactsUseCase: GetContactsUseCase) : Vi
                 when (result) {
                     is Result.Failure -> result
                     is Result.Success -> Result.success(result.data)
-                    is Result.Loading -> Result.loading(false)
+                    is Result.Loading -> Result.loading(true)
                 }
             )
         }

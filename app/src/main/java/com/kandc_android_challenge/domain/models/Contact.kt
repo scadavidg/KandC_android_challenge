@@ -8,11 +8,11 @@ data class Contact(
     val id: String,
     val name: String,
     val companyName: String,
-    val isFavorite: Boolean,
+    var isFavorite: Boolean,
     val smallImageURL: String,
     val largeImageURL: String,
-    val emailAddress: String,
-    val birthdate: String,
+    val emailAddress: String?,
+    val birthdate: String?,
     val phone: PhoneInfo,
-    val address: AddressInfo
+    val address: AddressInfo?
 ) : Parcelable

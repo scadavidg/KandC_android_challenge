@@ -1,10 +1,32 @@
 package com.kandc_android_challenge.utils
 
+import android.app.Activity
+import android.content.Context
+import android.content.Intent
+import android.graphics.drawable.Drawable
+import android.os.Bundle
+import android.os.Parcelable
 import android.view.LayoutInflater
+import android.view.View
+import android.widget.Toast
+import androidx.activity.ComponentActivity
+import androidx.activity.result.ActivityResult
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.annotation.DrawableRes
+import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.AppCompatImageView
+import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.example.kandc_android_challenge.R
 import com.kandc_android_challenge.data.models.Result
 import retrofit2.Response
+import java.io.Serializable
 import kotlin.coroutines.Continuation
 import kotlin.coroutines.resume
 
@@ -13,19 +35,129 @@ inline fun <T : ViewBinding> AppCompatActivity.viewBinding(crossinline bindingIn
         bindingInflater.invoke(layoutInflater)
     }
 
+fun <T : ViewBinding> Fragment.viewBinding(viewBindingFactory: (View) -> T) =
+    FragmentViewBindingDelegate(this, viewBindingFactory)
+
 inline fun <param, result> Response<param>.handleResponse(
     continuation: Continuation<Result<result>>,
     transformation: (predicate: param) -> result
 ) {
     if (!this.isSuccessful) {
-        continuation.resume(Result.failure<Exception>(Throwable(this.errorBody().toString())))
+        continuation.resume(
+            Result.failure<BackendException>(
+                BackendException(
+                    this.errorBody().toString()
+                )
+            )
+        )
         return
     }
     try {
         continuation.resume(Result.success(transformation(this.body()!!)))
     } catch (t: NullPointerException) {
-        continuation.resume(Result.failure<NullPointerException>(t))
+        continuation.resume(Result.failure<CorruptedDataException>(t))
     } catch (t: Throwable) {
-        continuation.resume(Result.failure<Throwable>(t.fillInStackTrace()))
+        continuation.resume(Result.failure<Throwable>(t))
     }
 }
+
+fun Context.showToast(message: String, length: Int = Toast.LENGTH_LONG) {
+    Toast.makeText(this, message, length).show()
+}
+
+fun Context.showToast(@StringRes message: Int, length: Int = Toast.LENGTH_LONG) {
+    Toast.makeText(this, message, length).show()
+}
+
+fun <T : Serializable> Bundle.mustHaveSerializableExtra(argument: String): T {
+    if (this.containsKey(argument)) {
+        return this.getSerializable(argument)!! as T
+    } else {
+        throw IllegalArgumentException("Intent should contain argument $argument")
+    }
+}
+
+fun <T : Parcelable> Intent.mustHaveParcelableExtra(argument: String): T {
+    if (this.hasExtra(argument)) {
+        return this.getParcelableExtra(argument)!!
+    } else {
+        throw IllegalArgumentException("Intent should contain argument $argument")
+    }
+}
+
+fun <T : Parcelable> Bundle.mustHaveParcelableExtra(argument: String): T {
+    if (this.containsKey(argument)) {
+        return this.getParcelable(argument)!!
+    } else {
+        throw IllegalArgumentException("Intent should contain argument $argument")
+    }
+}
+
+fun Any.getSimpleName(): String {
+    return this.javaClass.simpleName
+}
+
+fun <T> Context.shouldImplement(myInterface: Class<*>): T {
+    if (myInterface.isAssignableFrom(this::class.java)) {
+        return this as T
+    } else {
+        throw InterfaceNotImplementedException(
+            this.getSimpleName(),
+            myInterface.simpleName
+        )
+    }
+}
+
+fun <T> ArrayList<T>.replaceItems(newItems: List<T>): ArrayList<T> = this.apply {
+    clear()
+    addAll(newItems)
+}
+
+fun View.setAsVisible() {
+    this.visibility = View.VISIBLE
+}
+
+fun View.setAsGone() {
+    this.visibility = View.GONE
+}
+
+fun View.setAsInvisible() {
+    this.visibility = View.INVISIBLE
+}
+
+fun Context.getDrawableCompat(@DrawableRes id: Int): Drawable? = ContextCompat.getDrawable(this, id)
+
+fun RecyclerView.ViewHolder.getDrawableCompat(id: Int): Drawable? =
+    this.itemView.context.getDrawableCompat(id)
+
+fun loadItemPicture(picture: String?, imageView: AppCompatImageView) {
+    Glide.with(imageView.context)
+        .load(picture)
+        .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+        .error(R.drawable.user_large)
+        .into(imageView)
+}
+
+fun loadItemPicture(drawable: Drawable?, imageView: AppCompatImageView) {
+    Glide.with(imageView.context)
+        .load(drawable)
+        .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+        .error(R.drawable.user_large)
+        .into(imageView)
+}
+
+inline fun <reified T : Any> newIntent(context: Context): Intent = Intent(context, T::class.java)
+
+inline fun <reified T : Any> Activity.launchForResult(
+    resultsContract: ActivityResultLauncher<Intent>,
+    noinline init: Intent.() -> Unit = {}
+) {
+    val intent = newIntent<T>(this)
+    intent.init()
+    resultsContract.launch(intent)
+}
+
+fun ComponentActivity.onResult(onResultActions: (ActivityResult) -> Unit) =
+    this.registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { activityResult ->
+        onResultActions.invoke(activityResult)
+    }

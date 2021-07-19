@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:background="@color/background"
+    android:orientation="vertical"
+    android:layout_height="wrap_content">
+
+    <include layout="@layout/divider_contacts" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_marginVertical="@dimen/margin_15"
+        android:layout_height="wrap_content">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/ivContactPicture"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_width="@dimen/ic_medium"
+            android:layout_height="@dimen/ic_medium"
+            android:layout_marginStart="@dimen/margin_15"
+            tools:src="@drawable/user_large" />
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_25"
+            android:orientation="horizontal"
+            app:layout_constraintStart_toEndOf="@id/ivContactPicture"
+            app:layout_constraintBottom_toBottomOf="parent">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/icIsFavorite"
+                android:layout_width="@dimen/ic_is_favorite"
+                app:layout_constraintStart_toEndOf="@id/ivContactPicture"
+                tools:src="@drawable/favorite"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_height="@dimen/ic_is_favorite"
+                app:layout_constraintBottom_toBottomOf="parent" />
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_10"
+                android:orientation="vertical">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvContactName"
+                    android:layout_width="wrap_content"
+                    style="@style/TextAppearance.Contact.Header"
+                    tools:text="@string/contact_name_example"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:layout_height="match_parent"
+                    app:layout_constraintBottom_toBottomOf="parent" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvCompanyName"
+                    android:layout_width="wrap_content"
+                    style="@style/TextAppearance.Contact.Body"
+                    android:layout_marginTop="@dimen/margin_2"
+                    tools:text="@string/contact_company_name_example"
+                    tools:src="@drawable/favorite"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:layout_height="match_parent"
+                    app:layout_constraintBottom_toBottomOf="parent" />
+            </androidx.appcompat.widget.LinearLayoutCompat>
+        </androidx.appcompat.widget.LinearLayoutCompat>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.appcompat.widget.LinearLayoutCompat>

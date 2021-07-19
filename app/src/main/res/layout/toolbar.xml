@@ -1,0 +1,56 @@
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingVertical="@dimen/padding_toolbar"
+    android:background="@color/design_default_color_primary">
+
+    <androidx.constraintlayout.widget.Barrier
+        android:id="@+id/brContentLeft"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:barrierDirection="right"
+        app:constraint_referenced_ids="icBack" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/icBack"
+        android:layout_width="@dimen/ic_small"
+        android:layout_height="@dimen/ic_small"
+        android:src="@drawable/ic_arrow_back"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginStart="@dimen/margin_25"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/tvToolbarTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/icBack"
+        style="@style/TextAppearance.Contact.Toolbar"
+        android:text="@string/toolbar_title"
+        app:layout_constraintEnd_toStartOf="@+id/icIsFavorite" />
+
+
+    <androidx.constraintlayout.widget.Barrier
+        android:id="@+id/brContentRight"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:barrierDirection="left"
+        app:constraint_referenced_ids="icIsFavorite" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/icIsFavorite"
+        android:layout_width="@dimen/ic_small"
+        android:layout_height="@dimen/ic_small"
+        android:src="@drawable/favorite"
+        android:layout_marginEnd="@dimen/margin_30"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

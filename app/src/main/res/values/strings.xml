@@ -1,3 +1,20 @@
 <resources>
-    <string name="app_name">KandC_android_challenge</string>
+    <string name="app_name">Contacts</string>
+    <string name="error_default">
+        Unable to complete the action, please try again later or contact support.
+    </string>
+    <string name="error_corrupted_data">
+        We have a problem getting this information, please try again later.
+    </string>
+    <string name="contact_name_example">User Without Image</string>
+    <string name="contact_company_name_example">Kind + Carta</string>
+    <string name="favorite_contacts_title">Favorite Contacts</string>
+    <string name="others_contacts_title">Others Contacts</string>
+    <string name="toolbar_title">Contacts</string>
+    <string name="label_phone">PHONE</string>
+    <string name="label_phone_home">HOME</string>
+    <string name="label_phone_mobile">MOBILE</string>
+    <string name="label_address">ADDRESS</string>
+    <string name="label_birthdate">BIRTHDATE</string>
+    <string name="label_email">EMAIL</string>
 </resources>

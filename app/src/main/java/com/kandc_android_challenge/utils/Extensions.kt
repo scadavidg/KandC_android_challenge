@@ -1,18 +1,12 @@
 package com.kandc_android_challenge.utils
 
-import android.app.Activity
 import android.content.Context
-import android.content.Intent
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.os.Parcelable
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.Toast
-import androidx.activity.ComponentActivity
-import androidx.activity.result.ActivityResult
-import androidx.activity.result.ActivityResultLauncher
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
@@ -77,14 +71,6 @@ fun <T : Serializable> Bundle.mustHaveSerializableExtra(argument: String): T {
     }
 }
 
-fun <T : Parcelable> Intent.mustHaveParcelableExtra(argument: String): T {
-    if (this.hasExtra(argument)) {
-        return this.getParcelableExtra(argument)!!
-    } else {
-        throw IllegalArgumentException("Intent should contain argument $argument")
-    }
-}
-
 fun <T : Parcelable> Bundle.mustHaveParcelableExtra(argument: String): T {
     if (this.containsKey(argument)) {
         return this.getParcelable(argument)!!
@@ -117,10 +103,6 @@ fun View.setAsVisible() {
     this.visibility = View.VISIBLE
 }
 
-fun View.setAsGone() {
-    this.visibility = View.GONE
-}
-
 fun View.setAsInvisible() {
     this.visibility = View.INVISIBLE
 }
@@ -145,19 +127,3 @@ fun loadItemPicture(drawable: Drawable?, imageView: AppCompatImageView) {
         .error(R.drawable.user_large)
         .into(imageView)
 }
-
-inline fun <reified T : Any> newIntent(context: Context): Intent = Intent(context, T::class.java)
-
-inline fun <reified T : Any> Activity.launchForResult(
-    resultsContract: ActivityResultLauncher<Intent>,
-    noinline init: Intent.() -> Unit = {}
-) {
-    val intent = newIntent<T>(this)
-    intent.init()
-    resultsContract.launch(intent)
-}
-
-fun ComponentActivity.onResult(onResultActions: (ActivityResult) -> Unit) =
-    this.registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { activityResult ->
-        onResultActions.invoke(activityResult)
-    }

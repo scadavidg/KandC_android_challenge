@@ -35,7 +35,6 @@ class ContactDetailFragment : Fragment(R.layout.fragment_contact_detail), ErrorH
                 loadItemPicture(it.largeImageURL, ivContactPicture)
 
                 it.phone.home?.let {
-
                     setElementInfoProfile(
                         ElementInfoProfile(
                             getString(R.string.label_phone),

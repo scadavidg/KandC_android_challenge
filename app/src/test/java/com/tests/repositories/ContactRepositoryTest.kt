@@ -1,4 +1,4 @@
-package com.data.repositories
+package com.tests.repositories
 
 import com.google.gson.JsonArray
 import com.kandc_android_challenge.data.repositories.ContactRepositoryImpl

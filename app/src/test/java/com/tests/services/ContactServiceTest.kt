@@ -1,4 +1,4 @@
-package com.data.services
+package com.tests.services
 
 import com.google.gson.JsonArray
 import com.kandc_android_challenge.data.services.APIService

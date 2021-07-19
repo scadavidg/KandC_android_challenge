@@ -1,4 +1,4 @@
-package com.data.services
+package com.tests.services
 
 import com.example.kandc_android_challenge.BuildConfig.API_URL
 import com.kandc_android_challenge.data.services.APIService

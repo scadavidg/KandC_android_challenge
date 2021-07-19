@@ -1,4 +1,4 @@
-package com.data.usecases
+package com.tests.usecases
 
 import com.kandc_android_challenge.data.models.Result
 import com.kandc_android_challenge.domain.models.Contact
